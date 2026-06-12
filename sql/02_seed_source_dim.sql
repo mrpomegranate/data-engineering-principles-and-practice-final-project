@@ -1,0 +1,1 @@
+-- Seed reference rows for source_dim (finnhub, newsapi, yfinance, ...)
