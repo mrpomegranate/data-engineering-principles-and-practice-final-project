@@ -1,0 +1,12 @@
+[project]
+name = "data-engineering-principles-and-practice-final-project"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "curl-cffi>=0.15.0",
+    "python-dotenv>=1.0",
+    "requests>=2.31",
+    "yfinance>=0.2.40",
+]
