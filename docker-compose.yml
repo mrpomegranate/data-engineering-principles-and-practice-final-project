@@ -1,1 +1,46 @@
-# Orchestrates db + pipeline + api services (Phase 2/4)
+# ============================================================
+# docker-compose.yml — MarketPulse (Phase 2: databases only)
+#
+# This brings up just PostgreSQL + MongoDB for development.
+# Pipeline and API containers get added later (card 14).
+#
+# Run:   docker compose up -d
+# Stop:  docker compose down
+# Reset: docker compose down -v   (wipes data, re-runs SQL init)
+# ============================================================
+
+services:
+  db:
+    image: postgres:16
+    container_name: marketpulse_db
+    env_file: .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - "5432:5432"                       # exposed to host for pgAdmin + local dev
+    volumes:
+      - pgdata:/var/lib/postgresql/data   # persists data across restarts
+      - ./sql:/docker-entrypoint-initdb.d # auto-runs 01..07 on FIRST start only
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  mongo:
+    image: mongo:7
+    container_name: marketpulse_mongo
+    env_file: .env
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_USER}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_PASSWORD}
+    ports:
+      - "27017:27017"                     # exposed to host for Mongo Compass / dev
+    volumes:
+      - mongodata:/data/db
+
+volumes:
+  pgdata:
+  mongodata:
