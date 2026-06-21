@@ -45,7 +45,14 @@ STUBS = {
     "src/pipeline/extract/alphavantage_source.py":
         '"""Extract: Alpha Vantage daily quotes (BACKUP source, ~25 req/day)."""\n',
     "src/pipeline/extract/finra_source.py":
-        '"""Extract: FINRA bi-monthly short interest CSV -> raw records."""\n',
+        '"""Extract: FINRA bi-monthly short interest CSV -> raw records (stretch)."""\n',
+    # Shared extract infrastructure (used by every source extractor)
+    "src/pipeline/extract/http_client.py":
+        '"""Shared: HTTP GET with tenacity retry + exponential backoff."""\n',
+    "src/pipeline/extract/mongo_store.py":
+        '"""Shared: write raw API JSON to Mongo (raw_* collections + errors)."""\n',
+    "src/pipeline/extract/run_logger.py":
+        '"""Shared: write one row per pipeline step to pipeline_run_log."""\n',
     "src/pipeline/transform/clean.py":
         '"""Transform: nulls, timezone normalization, dedup, schema conformance."""\n',
     "src/pipeline/transform/sentiment.py":
@@ -60,10 +67,20 @@ STUBS = {
         '    raise NotImplementedError("Pipeline not built yet — Phase 2")\n\n\n'
         'if __name__ == "__main__":\n'
         '    main()\n',
-    "sql/01_create_tables.sql":
-        "-- DDL: all dim and fact tables, keys, constraints (Phase 2)\n",
-    "sql/02_seed_source_dim.sql":
-        "-- Seed reference rows for source_dim (finnhub, newsapi, yfinance, ...)\n",
+    "sql/01_dims.sql":
+        "-- DDL: dimension tables (company_dim, source_dim, date_dim)\n",
+    "sql/02_facts.sql":
+        "-- DDL: fact tables + pipeline_run_log, keys, idempotency constraints\n",
+    "sql/03_indexes.sql":
+        "-- Indexes for API query performance\n",
+    "sql/04_views.sql":
+        "-- sentiment_vs_price analytical view\n",
+    "sql/05_seed_sources.sql":
+        "-- Seed source_dim (finnhub, newsapi, yfinance, alphavantage)\n",
+    "sql/06_seed_companies.sql":
+        "-- Seed company_dim (tracked tickers)\n",
+    "sql/07_populate_dates.sql":
+        "-- Populate date_dim via generate_series\n",
     "docker-compose.yml":
         "# Orchestrates db + pipeline + api services (Phase 2/4)\n",
     "docker/Dockerfile.pipeline":
