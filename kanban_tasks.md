@@ -1,10 +1,15 @@
-# MarketPulse — Kanban Task List (18 cards)
+# MarketPulse — Kanban Task List (19 cards)
 
 Board: **Planned → In Progress → Finished**. All start in Planned, ordered as
 the build sequence (top to bottom respects dependencies). Tags: `[phase]`.
 Stretch quarantined at the bottom.
 
 Format: **Title** `[phase]` — _done when:_ definition (sub-steps bulleted).
+
+> **Source of truth:** canonical table and column names live in `sql/01_dims.sql`
+> and `sql/02_facts.sql`. This board references those names; it does not define
+> them. If a name here disagrees with the DDL, the DDL wins — and card 3 (schema
+> consistency pass) should be re-run.
 
 ---
 
