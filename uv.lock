@@ -229,6 +229,7 @@ name = "data-engineering-principles-and-practice-final-project"
 version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
+    { name = "charset-normalizer" },
     { name = "curl-cffi" },
     { name = "psycopg", extra = ["binary"] },
     { name = "pymongo" },
@@ -240,6 +241,7 @@ dependencies = [
 
 [package.metadata]
 requires-dist = [
+    { name = "charset-normalizer", specifier = ">=3.4.7" },
     { name = "curl-cffi", specifier = ">=0.15.0" },
     { name = "psycopg", extras = ["binary"], specifier = ">=3.3.4" },
     { name = "pymongo", specifier = ">=4.17.0" },

@@ -7,7 +7,6 @@ what powers the /status API endpoint and the dashboard's pipeline panel.
 """
 
 import os
-
 import psycopg
 
 
